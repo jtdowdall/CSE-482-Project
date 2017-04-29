@@ -18,8 +18,8 @@ if len(sys.argv) < 2:
     print("Please enter keyword as commandline argument.")
     exit()
 KEYWORD = sys.argv[1]
-positive = 0.0
-negative = 0.0
+positive = 0
+negative = 0
 
 auth = tweepy.OAuthHandler(C_KEY, C_SECRET)
 auth.set_access_token(A_TOKEN_KEY, A_TOKEN_SECRET)
@@ -31,7 +31,13 @@ def sentiment(text):
     return int(prob['neg'] < ['pos'])
 
 def sentiment2(text):
-    return int(afinn.score(text) > 0)
+    global positive, negative
+    score = afinn.score(text)
+    if score > 0:
+        positive += score
+    else:
+        negative += -1*score
+    return score
 
 class MyListener(StreamListener):
     def __init__(self, time_limit=-1):
@@ -60,10 +66,11 @@ class MyListener(StreamListener):
 ************Sentiment************
 API: {}
 Afinn: {}
+
+Total positive: {}
+Total negative: {}
 *********************************
-            '''.format(text,api,afinn))
-            # negative += neg
-            # positive += pos
+            '''.format(text,api,afinn, positive, negative))
             return True
         else:
             self.outFile.close()
