@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import tweepy
 from tweepy import OAuthHandler
 from tweepy import API
@@ -46,35 +47,31 @@ class MyListener(StreamListener):
         super(MyListener, self).__init__()
 
     def on_data(self, data):
-        global red, blue
-        if self.limit == -1 or (time.time() - self.start_time) < self.limit:
-            data = json.loads(data)
-            text = data['text'].encode('utf-8', errors = 'ignore')
-            split = text.find('https://t.co')
-            if split != -1:
-                text = text[:split-1]
-            split = text.find(':')
-            if split != -1:
-                text = text[split+2:]
-            text = text.replace('#', '')
-            api = sentiment(text)
-            afinn = sentiment2(text)
-            print('''
-
-**************TWEET**************
-{}
-************Sentiment************
-API: {}
-Afinn: {}
-
-Total positive: {}
-Total negative: {}
-*********************************
-            '''.format(text,api,afinn, positive, negative))
-            return True
-        else:
-            self.outFile.close()
-            return False
+        data = json.loads(data)
+        text = data['text'].encode('utf-8', errors = 'ignore')
+        split = text.find('https://t.co')
+        if split != -1:
+            text = text[:split-1]
+        split = text.find(':')
+        if split != -1:
+            text = text[split+2:]
+        text = text.replace('#', '')
+        api = sentiment(text)
+        afinn = sentiment2(text)
+#             print('''
+#
+# **************TWEET**************
+# {}
+# ************Sentiment************
+# API: {}
+# Afinn: {}
+#
+# Total positive: {}
+# Total negative: {}
+# *********************************
+#             '''.format(text,api,afinn, positive, negative))
+        print("{},{}".format(negative,positive))
+        return True
 
     def on_error(self, status):
         print(status)
