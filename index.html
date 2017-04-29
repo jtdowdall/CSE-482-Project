@@ -1,14 +1,63 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title>Sample "Hello, World" Application</title>
-  </head>
-  <body bgcolor=white>
-	<h1>Sample "Hello, World" Application</h1>
-    <p>This is the home page for the HelloWorld Web application. </p>
-    <p>To prove that they work, you can execute either of the following links:
-    <ul>
-    	<li><a href="https://www.google.com/">google</a></li>
-    </ul>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>CSE 482 Project</title>
 
+    <!-- css -->
+	<link rel="stylesheet" type="text/css" media="screen, projection, print" href="css/dist/master.css" />
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/dist/master-min.js"></script>
+
+  </head>
+  <body>
+  	<div class="container main-cont">
+  		<div class="title row text-center">
+		    <h1>Twitter Approval Rating!</h1>
+  		</div>
+  		<div class="row">
+		    <div class="col-md-12 search">
+		    	<input type="text" name="search" placeholder="Enter a word you want the approval rating of!" style="width: 100%;">
+		    </div>
+  		</div>
+  		<div class="row approval">
+		    <div class="good">
+		    	<div class="col-md-12 text-center">
+			    	<h1>This is one thing</h1>
+		    	</div>
+		    	<div class="col-md-12">
+		    		<ul class="no-list-style">
+		    			<li>These would be good tweets</li>
+		    			<li>These would be good tweets</li>
+		    			<li>These would be good tweets</li>
+		    			<li>These would be good tweets</li>
+		    			<li>These would be good tweets</li>
+		    		</ul>
+		    	</div>
+		    </div>
+		    <div class="bad">
+		    	<div class="col-md-12 text-center">
+			    	<h1>This is another</h1>
+			    	
+		    	</div>
+		    	<div class="col-md-12">
+		    		<ul class="no-list-style">
+		    			<li>These would be bad tweets</li>
+		    			<li>These would be bad tweets</li>
+		    			<li>These would be bad tweets</li>
+		    			<li>These would be bad tweets</li>
+		    			<li>These would be bad tweets</li>
+		    		</ul>
+		    	</div>
+		    </div>
+  		</div>
+	</div>
+    
   </body>
 </html>

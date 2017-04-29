@@ -1,0 +1,31 @@
+// Define some colors if we need it
+@black: #000000;
+@blue: #232066;
+@red: #E91D0E;
+@white: #FFFFFF;
+
+// Some utilities to help
+.text-center{
+	text-align: center;
+}
+.no-list-style{
+	list-style-type: none;
+}
+// Start of main CSS
+.main-cont{
+	.approval{
+		display: flex;
+		.good, .bad{
+			border: solid 1px @black;
+			color: @white; 
+			width: 50%;
+			display: inline-block;
+		}
+		.good{
+			background: @blue;
+		}
+		.bad{
+			background: @red;
+		}
+	}
+}
