@@ -49,6 +49,7 @@ class MyListener(StreamListener):
     def on_data(self, data):
         data = json.loads(data)
         text = data['text'].encode('utf-8', errors = 'ignore')
+        original = text
         split = text.find('https://t.co')
         if split != -1:
             text = text[:split-1]
@@ -56,8 +57,8 @@ class MyListener(StreamListener):
         if split != -1:
             text = text[split+2:]
         text = text.replace('#', '')
-        api = sentiment(text)
-        afinn = sentiment2(text)
+        # api = sentiment(text)
+        # afinn = sentiment2(text)
 #             print('''
 #
 # **************TWEET**************
@@ -70,7 +71,7 @@ class MyListener(StreamListener):
 # Total negative: {}
 # *********************************
 #             '''.format(text,api,afinn, positive, negative))
-        print("{},{}".format(negative,positive))
+        print("{}|{}".format(original,afinn.score(text)))
         return True
 
     def on_error(self, status):
