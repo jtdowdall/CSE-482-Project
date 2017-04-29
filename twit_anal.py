@@ -5,6 +5,7 @@ import time
 import json
 from tweepy.streaming import StreamListener
 from tweepy import Stream
+from afinn import Afinn
 import requests
 import sys
 
@@ -16,8 +17,8 @@ if len(sys.argv) < 2:
     print("Please enter keyword as commandline argument.")
     exit()
 KEYWORD = sys.argv[1]
-blue = 0.0
-red = 0.0
+positive = 0.0
+negative = 0.0
 
 auth = tweepy.OAuthHandler(C_KEY, C_SECRET)
 auth.set_access_token(A_TOKEN_KEY, A_TOKEN_SECRET)
@@ -32,7 +33,7 @@ class MyListener(StreamListener):
     def __init__(self, time_limit=-1):
         self.start_time = time.time()
         self.limit = time_limit
-        self.outFile = open('politics.json', 'a')
+        self.afinn = Afinn(emoticons=True)
         super(MyListener, self).__init__()
 
     def on_data(self, data):
@@ -46,18 +47,27 @@ class MyListener(StreamListener):
             split = text.find(':')
             if split != -1:
                 text = text[split+2:]
-            neg, neutral, pos = sentiment(text.replace('#', ''))
+            text = text.replace('#', '')
+            neg, neutral, pos = sentiment(text)
+            api = 0
+            if neg < pos:
+                api = 1
+            afinn = self.afinn.score(text)
+            if afinn > 0:
+                afinn = 1
+            else:
+                afinn = 0
             print('''
 
 **************TWEET**************
 {}
 ************Sentiment************
-Negative: {}
-Positive: {}
+API: {}
+Afinn: {}
 *********************************
-            '''.format(text,neg,pos))
-            red += neg
-            blue += pos
+            '''.format(text,api,afinn))
+            # negative += neg
+            # positive += pos
             return True
         else:
             self.outFile.close()
@@ -65,7 +75,6 @@ Positive: {}
 
     def on_error(self, status):
         print(status)
-        import requests
 
 myStream = Stream(auth, MyListener())
 myStream.filter(track=[KEYWORD])
